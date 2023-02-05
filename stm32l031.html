@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beaver-V github pages</title>
+    <link rel="stylesheet" href="./styles/style.css">
+    <meta property="og:title" content="BME280-STM32L031-BC66-thingspeak">
+    <meta property="og:description" content="NB-IOT sensor for Thingspeak">
+    <meta property="og:image" content="https://beaver-v.github.io/BC66-L031-9.jpg">
+    <meta property="og:url" content="https://beaver-v.github.io/">
+  </head>
+
+  <body bgcolor=E0FFFF>
+    <header>
+      <h1>BME280 STM32 BC66 Thingspeak</h1>
+      <p>Yet another battery-powered weather data sensor.<br>This time the data is sent to Thingspeak and the microcontroller is STM32L031.</p>
+      <a href="https://thingspeak.com/channels/1288877"><font size=4 color=0000ff>Thingspeak channel</font></a>
+    </header>
+    <main>
+      <article>
+        <section>
+          <p><br></p>
+          <h3>Prototype photo.</h3>
+          <img src="images/BC66-L031-1-prototype.jpg" border=2 alt="Prototype">
+          <p><br></p>
+          <h3>STM32L031 microcontroller.</h3>
+          <img src="images/BC66-L031-2-controller.jpg" border=2 alt="STM32L031 mcu">
+          <p><br></p>
+          <h3>Microcontroller pcb.</h3>
+          <img src="images/BC66-L031-3-controller-pcb.jpg" border=2 alt="Controller pcb">
+        </section>
+        <section>
+          <p><br></p>
+          <h3>Data transfer is made via NB-IOT modem BC66.</h2>
+          <img src="images/BC66-L031-4-bc66.jpg" border=2 alt="BC66 NB-IOT module">
+         </section>
+         <section>
+          <p><br></p>
+          <h3>Weather data sensor - module with BME280.</h2>
+          <img src="images/BC66-L031-5-bme280.jpg" border=2 alt="BME280 module">
+         </section>
+        <section>
+          <p><br></p>
+          <h3>Power.</h2>
+          <p>Power source - Li-SOCl2 battery of standard size D of spiral type. This type of battery can deliver high current even at very low temperatures, for example, for LSH20 SAFT, the lower operating temperature limit is -60 degrees Celsius. The cellular module is powered directly from the battery, and the MCU is powered by a voltage regulator chip TPS79718 with an output voltage of 1.8 volts.</p>
+          <p><br></p>
+          <img src="images/BC66-L031-6-batteries.jpg" border=2 alt="Batteries">
+        </section>
+        <section>
+          <p><br></p>
+          <h3>Circuit diagram.</h2>
+          <img src="images/BC66-L031-7-schematic.jpg" border=2 alt="Schematic">
+        </section>
+        <section>
+          <p><br></p>
+          <h3>Components.</h2>
+            <table border=1>
+		<tr>
+		  <td height=25 width=200> MCU</td> <td height=25 width=250> STM32L031F6P6 (ST Microelectronics)</td>
+		</tr>
+		<tr>
+		  <td height=25 width=200> NB-IOT module</td> <td height=25 width=250> BC66NADA-04-STD (Quectel)</td>
+		</tr>
+		<tr>
+		  <td height=25 width=200> Sensor</td> <td height=25 width=250> BME280 (Bosch)</td>
+		</tr>
+		<tr>
+		  <td height=25 width=200> LDO</td> <td height=25 width=250> TPS79718DCKT (TI)</td>
+		</tr>
+		<tr>
+		  <td height=25 width=200> Battery</td> <td height=25 width=250> ER34615M EEMB or ER34615M FANSO or LSH20 ED-Battery or LSH20 SAFT</td>
+		</tr>
+            </table>
+        </section>
+        <section>
+          <p><br></p>
+          <h3>Prougram.</h2>
+          <p>To reduce power consumption, the STM32L031F6P6 is in STOP mode most of the time, and the BC66 module is turned off. The MCU is brought out of the STOP mode by the RTC timer. After waking up, the microcontroller triggers the BME280 for measurement once. Then the program turns on the BC66 and waits for it to register in the NB-IoT network. If registration on the network was successful, a connection to the server is made and data is sent. In addition to temperature, pressure and humidity, battery voltage and network signal strength are also sent to the server. After sending the data, the server is disconnected, the BC66 is turned off and the microcontroller is put into STOP mode. The PSM and eDRX modes of the BC66 module are not used, maybe they will be implemented in future versions of the program.</p>
+          <p><br></p>          
+<p>The code for STM32L031F6P6 is written in STM32CubeIDE using only the CMSIS library (HAL is not used). When checking, it turned out that the LPUART1 interrupt did not work. It worked after replacing the startup_stm32l031f6px.s file with a similar one from the project generated for HAL.</p>
+          <p><br></p>
+          <p>To test operation at low temperatures, I placed the device in the freezer of the refrigerator (the antenna is outside):</p>
+          <p><br></p>
+          <img src="images/BC66-L031-8-test-in-freezer.jpg" border=2 alt="Thingspeak screenshot">
+        </section>
+        <section>
+          <p><br></p>
+          <h3>Project is here:</h2>
+          <a href="https://github.com/Beaver-V/BME280-STM32L031-BC66-Thingspeak"><font size=4 color=0000ff>STM32L031 Thingspeak project</font></a>
+        </section>
+      </article>
+    </main>
+    <footer>
+      <p><br></p>
+       <hr size=3 color=0000ff>
+         <p></p>
+         <p><i>Author:</i><b> Vladimir-B</b></p>
+    </footer>
+  </body>
+</html>
